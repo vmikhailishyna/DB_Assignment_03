@@ -126,6 +126,15 @@ Explain analyze on non-optimazed query
 <img width="1463" height="797" alt="image" src="https://github.com/user-attachments/assets/3f74a560-d139-4126-b4ed-7abd68a844a1" />
 
 
+The analysis shows that the optimized query uses static indexes instead of creating temporary ones, which significantly reduces execution time.
+
+Optimizing the WHERE conditions resulted in a small but real reduction in the number of rows processed.
+
+The optimized query uses the created indexes (idx_orders_product_id, idx_orders_user_id), which reduces JOIN time.
+
+
+
+
 Explain analyze on optimazed query
 
 -> Sort: u.`name`, p.category, o.order_date DESC  (actual time=460318..460336 rows=77932 loops=1)
