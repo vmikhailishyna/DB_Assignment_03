@@ -123,6 +123,7 @@ Explain on non-optimazed query
 <img width="1457" height="456" alt="image" src="https://github.com/user-attachments/assets/284740a8-d1cd-4d77-9c57-c2909be4cc69" />
 
 Explain analyze on non-optimazed query 
-<img width="1418" height="806" alt="image" src="https://github.com/user-attachments/assets/e0bcab18-b2eb-4693-9135-af0450666bce" />
+<img width="1463" height="797" alt="image" src="https://github.com/user-attachments/assets/3f74a560-d139-4126-b4ed-7abd68a844a1" />
+
 
 Explain analyze on optimazed query
