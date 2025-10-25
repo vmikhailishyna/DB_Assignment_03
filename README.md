@@ -127,3 +127,25 @@ Explain analyze on non-optimazed query
 
 
 Explain analyze on optimazed query
+
+-> Sort: u.`name`, p.category, o.order_date DESC  (actual time=460318..460336 rows=77932 loops=1)
+    -> Stream results  (cost=796861 rows=0) (actual time=329765..460019 rows=77932 loops=1)
+        -> Nested loop left join  (cost=796861 rows=0) (actual time=329765..459492 rows=77932 loops=1)
+            -> Nested loop inner join  (cost=634439 rows=64968) (actual time=3.88..117031 rows=77932 loops=1)
+                -> Nested loop inner join  (cost=562979 rows=64968) (actual time=3.14..102898 rows=77932 loops=1)
+                    -> Nested loop inner join  (cost=491520 rows=64968) (actual time=3.11..102157 rows=77932 loops=1)
+                        -> Filter: ((o.quantity > 2) and (year(o.order_date) between 2020 and 2025) and (o.product_id is not null) and (o.user_id is not null))  (cost=116201 rows=341228) (actual time=1.44..4020 rows=778381 loops=1)
+                            -> Table scan on o  (cost=116201 rows=1.02e+6) (actual time=1.43..3134 rows=1e+6 loops=1)
+                        -> Filter: (p.category in ('Category_1','Category_2','Category_3','Category_4','Category_5'))  (cost=1 rows=0.19) (actual time=0.126..0.126 rows=0.1 loops=778381)
+                            -> Single-row index lookup on p using PRIMARY (product_id = o.product_id)  (cost=1 rows=1) (actual time=0.124..0.124 rows=1 loops=778381)
+                    -> Single-row index lookup on p using PRIMARY (product_id = o.product_id)  (cost=1 rows=1) (actual time=0.00912..0.00915 rows=1 loops=77932)
+                -> Single-row index lookup on u using PRIMARY (user_id = o.user_id)  (cost=1 rows=1) (actual time=0.181..0.181 rows=1 loops=77932)
+            -> Index lookup on cte_au using <auto_key0> (user_id = o.user_id, category = p.category)  (cost=0.25..2.5 rows=10) (actual time=4.39..4.39 rows=1 loops=77932)
+                -> Materialize CTE cte_aggregation  (cost=0..0 rows=0) (actual time=329761..329761 rows=990087 loops=1)
+                    -> Table scan on <temporary>  (actual time=318328..323648 rows=990087 loops=1)
+                        -> Aggregate using temporary table  (actual time=318328..318328 rows=990086 loops=1)
+                            -> Nested loop inner join  (cost=1.24e+6 rows=1.02e+6) (actual time=0.222..135545 rows=1e+6 loops=1)
+                                -> Filter: (o.product_id is not null)  (cost=116201 rows=1.02e+6) (actual time=0.19..5135 rows=1e+6 loops=1)
+                                    -> Table scan on o  (cost=116201 rows=1.02e+6) (actual time=0.188..4674 rows=1e+6 loops=1)
+                                -> Single-row index lookup on p using PRIMARY (product_id = o.product_id)  (cost=1 rows=1) (actual time=0.13..0.13 rows=1 loops=1e+6)
+
