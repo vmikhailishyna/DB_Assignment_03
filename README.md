@@ -63,6 +63,7 @@ ORDER BY u.name, p.category, o.order_date DESC;
 ```
 
 2️⃣ Optimized (your version)
+
 First, indexes were created for the following lines: Orders(user_id), Orders(product_id), Orders(order_date), Products(category).They were created to facilitate searching by lines without scanning the entire table.
 
 cte_aggregation was created and all internal joins were rewritten there so that there would not be many identical subqueries. All complex calculations (averages, maximums, number of large orders) are combined into a single common CTE. Previously, these calculations were performed using several separate subqueries or LEFT JOINs for each metric. This reduced duplicate queries, and the Orders table is now scanned once instead of four times.
@@ -121,3 +122,7 @@ Explain on optimazed query
 Explain on non-optimazed query
 <img width="1457" height="456" alt="image" src="https://github.com/user-attachments/assets/284740a8-d1cd-4d77-9c57-c2909be4cc69" />
 
+Explain analyze on non-optimazed query 
+<img width="1418" height="806" alt="image" src="https://github.com/user-attachments/assets/e0bcab18-b2eb-4693-9135-af0450666bce" />
+
+Explain analyze on optimazed query
